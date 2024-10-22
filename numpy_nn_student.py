@@ -18,6 +18,10 @@ def read_idx(filename):
         shape = tuple(struct.unpack('>I', f.read(4))[0] for d in range(dims))
         return np.frombuffer(f.read(), dtype=np.uint8).reshape(shape)
     
+
+
+# Task 1: reading the MNIST files into Python ndarrays
+
 x_test = read_idx("t10k-images.idx3-ubyte")
 
 y_test = read_idx("t10k-labels.idx1-ubyte")
@@ -31,9 +35,18 @@ print(y_train)
 print(x_test)
 print(y_test)
 
-# Task 1: reading the MNIST files into Python ndarrays
+print(x_test.shape, x_test.size, x_test.ndim, y_test.shape)
+print()
+
+#Question 1 : the shape of the x_test array is (10000, 28, 28). The first represents the number of digits or instance
+#and the last one represent the bitmap of one digit. Each row represents one digit
         
 # Task 2: visualize a few bitmap images
+
+firstattempt = x_test[0]
+#print(firstattempt, firstattempt.shape)
+plt.imshow(firstattempt)
+plt.show()
         
 # Task 3: input pre-preprocessing    
 
