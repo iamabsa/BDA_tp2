@@ -6,6 +6,7 @@
 
 import struct
 import numpy as np
+import math as mt
 import time
 import matplotlib.pyplot as plt
 
@@ -43,16 +44,30 @@ print()
         
 # Task 2: visualize a few bitmap images
 
-firstattempt = x_test[0]
-#print(firstattempt, firstattempt.shape)
-plt.imshow(firstattempt)
-plt.show()
+firstattempt = x_test[0][0]
+print(firstattempt, firstattempt.shape)
+# plt.imshow(firstattempt)
+# plt.show()
         
-# Task 3: input pre-preprocessing    
+# Task 3: input pre-preprocessing  
+
+def preprocess_input(input) :
+    input = input / 256
+    min_val = np.min(input)
+    max_val = np.max(input)
+    scaled_input = (input - min_val) / (max_val - min_val)
+    shape = input.shape
+    firstdim = shape[0]
+    secondim = shape[1] * shape[2]
+    return scaled_input.reshape(firstdim, secondim)
+  
 
 # Task 4: output pre-processing
         
 # Task 5-6: creating and initializing matrices of weights
+
+def layer_weights(m , n) :
+    res = np.random.standard_normal(size = n * m)
         
 # Task 7: defining functions sigmoid, softmax, and sigmoid'
         
