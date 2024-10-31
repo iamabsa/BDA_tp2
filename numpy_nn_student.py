@@ -67,9 +67,24 @@ def preprocess_input(input) :
 # Task 5-6: creating and initializing matrices of weights
 
 def layer_weights(m , n) :
-    res = np.random.standard_normal(size = n * m)
+    return np.random.standard_normal(size = m * n) / np.sqrt(n)
+
+w1 = layer_weights(784 , 128)
+w2 = layer_weights(128 , 64)
+w3 = layer_weights(64 , 10)
         
 # Task 7: defining functions sigmoid, softmax, and sigmoid'
+
+def sigmoid(x) :
+    return 1 / (1 + np.exp(-x))
+
+def softmax(x):
+    exp_x = np.exp(x - np.max(x))
+    total_sum = np.sum(exp_x)
+    return exp_x / total_sum
+
+def sigmoid_prime(x) :
+    return np.exp(-x) / (np.exp(-x) + 1 ) ** 2
         
 # Task 8-9: forward pass
         
