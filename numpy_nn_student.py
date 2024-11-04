@@ -63,6 +63,10 @@ def preprocess_input(input) :
   
 
 # Task 4: output pre-processing
+def preprocess_output(label):
+    one_hot_vector = np.zeros(10)
+    one_hot_vector[label] = 1
+    return one_hot_vector
         
 # Task 5-6: creating and initializing matrices of weights
 
