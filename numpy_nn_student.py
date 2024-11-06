@@ -134,7 +134,7 @@ def backpropagation (forward_res, expected_output) :
 
 test10  = backpropagation(forward_pass_v2(input), ([0,0,0,0,0,0,0,1,0,0]))
 print("showing what is inside test 10")
-print(test10[0].shape, len(test10))
+print(test10[0].shape, test10[1].shape, test10[2].shape, len(test10))
 print(test10)
         
 # Task 11: weight updates
