@@ -142,6 +142,12 @@ print(test10[0].shape, test10[1].shape, test10[2].shape, len(test10))
 print(test10)
         
 # Task 11: weight updates
+
+def weight_updates(w1, w2, w3,back_res):
+    w1 = w1 - 0.001 * back_res[0]
+    w2 = w2 - 0.001 * back_res[1]
+    w3 = w3 - 0.001 * back_res[2]
+    return w1, w2, w3
         
 # Task 12: computing error on test data
         
