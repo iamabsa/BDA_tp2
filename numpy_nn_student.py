@@ -63,12 +63,10 @@ def preprocess_input(input) :
   
 
 # Task 4: output pre-processing
-
 def preprocess_output(output):
     res = np.zeros((len(output), 10))
     res[np.arange(len(output)), output] = 1
     return res
-
         
 # Task 5-6: creating and initializing matrices of weights
 
