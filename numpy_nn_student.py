@@ -60,13 +60,19 @@ def preprocess_input(input) :
     firstdim = shape[0]
     secondim = shape[1] * shape[2]
     return scaled_input.reshape(firstdim, secondim)
-  
+
+x_test_prepro = preprocess_input(x_test)
+x_train_prepro = preprocess_input(x_train) 
 
 # Task 4: output pre-processing
 def preprocess_output(output):
     res = np.zeros((len(output), 10))
     res[np.arange(len(output)), output] = 1
     return res
+
+
+y_test_prepro = preprocess_output(y_test)
+y_train_prepro = preprocess_output(y_train)
         
 # Task 5-6: creating and initializing matrices of weights
 
@@ -136,22 +142,34 @@ def backpropagation (forward_res, expected_output) :
 
     return [deltaw1, deltaw2, deltaw3]
 
-test10  = backpropagation(forward_pass_v2(input), ([0,0,0,0,0,0,0,1,0,0]))
+test10  = backpropagation(forward_pass_v2(input), y_train_prepro[0])
 print("showing what is inside test 10")
-print(test10[0].shape, test10[1].shape, test10[2].shape, len(test10))
-print(test10)
+#print(test10[0].shape, test10[1].shape, test10[2].shape, len(test10))
+#print(test10)
         
 # Task 11: weight updates
 
-def weight_updates(w1, w2, w3,back_res):
+def weight_updates(w1, w2, w3, back_res):
+
     w1 = w1 - 0.001 * back_res[0]
     w2 = w2 - 0.001 * back_res[1]
     w3 = w3 - 0.001 * back_res[2]
     return w1, w2, w3
         
 # Task 12: computing error on test data
+
+
+def error_rate(x,y):
+     activation_arrays = np.array(forward_pass(x)).reshape(len(x),10)
+     labels = np.argmax(activation_arrays, axis=1)
+     labels = preprocess_output(labels)
+     errors = np.any(labels != y, axis = 1)
+     return np.sum(errors) / len(y)
         
 # Task 13: error with initial weights
+
+test13 = error_rate(x_test_prepro, y_test_prepro)
+print(test13)
         
 # Task 14-15: training
 
