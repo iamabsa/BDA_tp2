@@ -80,7 +80,6 @@ def layer_weights(m , n) :
     return np.random.standard_normal(size = (m , n)) / np.sqrt(n)
 
 w1 = layer_weights(784 , 128)
-#print(w1.shape)
 w2 = layer_weights(128 , 64)
 w3 = layer_weights(64 , 10)
         
@@ -113,21 +112,21 @@ def forward_pass_v2(input) :
     z2 = np.dot(a1 , w2)
     a2 = sigmoid(z2)
     z3 = np.dot(a2 , w3)
-    return [(input, a1, a2, sigmoid(z3)) , (z1, z2)]
+    return [(input, a1, a2, softmax(z3)) , (z1, z2)]
 
 #flattening the training data
 testprep = preprocess_input(x_train)
 print(testprep, testprep.shape, testprep.ndim)
 
 input = testprep[0] #testing on the first image (first row)
-print(input, input.shape)
+#print(input, input.shape)
 res = forward_pass_v2(input)
-print("showing res")
+#print("showing res")
 #print(res)
 
 # Task 10: backpropagation
 
-def backpropagation (forward_res, expected_output) :
+def back_propagation (forward_res, expected_output) :
     e3 = forward_res[0][-1] - expected_output
 
     deltaw3 = np.outer(np.transpose(forward_res[0][-2]) , e3)
@@ -142,25 +141,22 @@ def backpropagation (forward_res, expected_output) :
 
     return [deltaw1, deltaw2, deltaw3]
 
-test10  = backpropagation(forward_pass_v2(input), y_train_prepro[0])
-print("showing what is inside test 10")
-#print(test10[0].shape, test10[1].shape, test10[2].shape, len(test10))
-#print(test10)
         
 # Task 11: weight updates
 
-def weight_updates(w1, w2, w3, back_res):
+def weight_updates(w1, w2, w3, back_res, learning_rate):
 
-    w1 = w1 - 0.001 * back_res[0]
-    w2 = w2 - 0.001 * back_res[1]
-    w3 = w3 - 0.001 * back_res[2]
+    w1 = w1 - learning_rate * back_res[0]
+    w2 = w2 - learning_rate * back_res[1]
+    w3 = w3 - learning_rate * back_res[2]
     return w1, w2, w3
-        
+
+# test11 = weight_updates(w1, w2, w3, back_propagation(forward_pass_v2(x_train_prepro[0]), y_train_prepro[0]) , 0.001) 
+# print(w1.shape, test11[0].shape,w2.shape, test11[1].shape,w3.shape, test11[2].shape)       
 # Task 12: computing error on test data
 
-
 def error_rate(x,y):
-     activation_arrays = np.array(forward_pass(x)).reshape(len(x),10)
+     activation_arrays = np.array(forward_pass_v2(x)[0][3]).reshape(len(x),10)
      labels = np.argmax(activation_arrays, axis=1)
      labels = preprocess_output(labels)
      errors = np.any(labels != y, axis = 1)
@@ -168,9 +164,28 @@ def error_rate(x,y):
         
 # Task 13: error with initial weights
 
-test13 = error_rate(x_test_prepro, y_test_prepro)
-print(test13)
+# test13 = error_rate(x_test_prepro, y_test_prepro)
+# print("showing_test13")
+# print(test13)
         
 # Task 14-15: training
 
+def train(number_epoch, learning_rate):
+     w1 = layer_weights(784 , 128)
+     w2 = layer_weights(128 , 64)
+     w3 = layer_weights(64 , 10)
+     for iter in range(number_epoch):
+         start_time = time.time()
+         index_output = 1
+         for row in x_train_prepro[:10] :
+             output = forward_pass_v2(row)
+             delta_weights = back_propagation(output,y_train_prepro[index_output-1 :index_output])
+             deltas = weight_updates(w1,w2,w3, delta_weights,learning_rate)
+             w1 = deltas[0]
+             w2 = deltas[1]
+             w3 = deltas[2]
+             index_output += 1
+         print("epoch number %d : the error rate is %f , time : %f" %(iter +1 , error_rate(x_train_prepro, y_train_prepro), time.time() - start_time))        
+
+train(10,0.001)          
 # Task 16-18: batch training
