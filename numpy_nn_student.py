@@ -187,7 +187,7 @@ def train(number_epoch, learning_rate):
     for iter in range(number_epoch):
         start_time = time.time()
         index_output = 1
-        for row in x_train_prepro[:100]:
+        for row in x_train_prepro[:60000]:
             output = forward_pass_v2(row)
             delta_weights = back_propagation(
                 output, y_train_prepro[index_output-1:index_output])
@@ -197,5 +197,5 @@ def train(number_epoch, learning_rate):
             iter + 1, error_rate(x_train_prepro, y_train_prepro), time.time() - start_time))
 
 
-train(100, 0.001)
+train(50, 0.001)
 # Task 16-18: batch training
