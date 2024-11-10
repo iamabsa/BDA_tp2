@@ -198,8 +198,4 @@ def train(number_epoch, learning_rate):
 
 
 train(50, 0.001)
-<<<<<<< HEAD
 # Task 16-18: batch training
-=======
-# Task 16-18: batch training
->>>>>>> b43dc1d75a9e5b0f1186ae95dcbb581ef1e23693
